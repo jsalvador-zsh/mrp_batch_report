@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de formulario extendida -->
+    <record id="mrp_production_form_view_batch" model="ir.ui.view">
+        <field name="name">mrp.production.form.batch</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+        <field name="arch" type="xml">
+
+            <!-- Agregar campos en la sección de información general -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Información de Batch" name="batch_info">
+                    <group>
+                        <group string="Información de Batchs">
+                            <field name="batch_size"
+                                decoration-info="batch_size &gt; 0"
+                                help="Defina la cantidad que se producirá por batch" />
+                            <field name="batch_count" readonly="1" />
+                            <field name="batch_details" readonly="1" widget="text" />
+                        </group>
+                        <group></group>
+                    </group>
+                </page>
+            </xpath>
+
+            <!-- Agregar página con información adicional para el reporte -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Información del Reporte" name="report_info">
+                    <group>
+                        <group string="Información General">
+                            <field name="lote_produccion" />
+                            <field name="numero_pedido" />
+                            <field name="municipalidad" />
+                            <field name="registro_sanitario" />
+                            <field name="conformidad" />
+                        </group>
+                        <group string="Información de Envase">
+                            <field name="envase_primario" />
+                            <field name="lote_envase" />
+                            <field name="tipo_envase" />
+                            <field name="codigo_equipo" />
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Pesos">
+                            <field name="kg_neto" />
+                            <field name="kg_bruto" />
+                        </group>
+                        <group string="Observaciones">
+                            <field name="observaciones" widget="text" nolabel="1" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Vista de árbol extendida -->
+    <record id="mrp_production_tree_view_batch" model="ir.ui.view">
+        <field name="name">mrp.production.tree.batch</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_qty']" position="after">
+                <field name="batch_size" optional="show" />
+                <field name="batch_count" optional="show" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

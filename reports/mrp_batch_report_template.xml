@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_mrp_batch_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-family: Arial, sans-serif; font-size: 11px;">
+                        
+                        <!-- Encabezado Principal -->
+                        <div class="row mb-3" style="border-bottom: 2px solid #333; padding-bottom: 8px;">
+                            <div class="col-12 text-center">
+                                <h3 style="margin: 0; color: #2c3e50; font-weight: bold;">PLAN HACCP</h3>
+                                <small style="color: #7f8c8d;">CONTROL DE PRODUCCIÓN POR LOTES</small>
+                            </div>
+                        </div>
+
+                        <!-- Información del Producto - Diseño Compacto -->
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <table class="table" style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
+                                    <tr style="background-color: #f8f9fa;">
+                                        <td style="width: 15%; padding: 6px; border: 1px solid #dee2e6; font-weight: bold;">PRODUCTO:</td>
+                                        <td style="width: 35%; padding: 6px; border: 1px solid #dee2e6;"><span t-field="o.product_id"/></td>
+                                        <td style="width: 15%; padding: 6px; border: 1px solid #dee2e6; font-weight: bold;">KG NETO:</td>
+                                        <td style="width: 35%; padding: 6px; border: 1px solid #dee2e6;"><span t-field="o.kg_neto"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Resumen de Producción -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <table class="table" style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+                                    <tr style="background-color: #e9ecef;">
+                                        <td style="width: 16%; padding: 6px; border: 1px solid #dee2e6; font-weight: bold;">CANTIDAD TOTAL:</td>
+                                        <td style="width: 17%; padding: 6px; border: 1px solid #dee2e6;"><span t-field="o.product_qty"/> <span t-field="o.product_uom_id"/></td>
+                                        <td style="width: 17%; padding: 6px; border: 1px solid #dee2e6; font-weight: bold;">CANTIDAD/BATCH:</td>
+                                        <td style="width: 17%; padding: 6px; border: 1px solid #dee2e6;"><span t-field="o.batch_size"/> <span t-field="o.product_uom_id"/></td>
+                                        <td style="width: 16%; padding: 6px; border: 1px solid #dee2e6; font-weight: bold;">N° BATCHES:</td>
+                                        <td style="width: 17%; padding: 6px; border: 1px solid #dee2e6;"><span t-field="o.batch_count"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Detalle por Batch -->
+                        <t t-set="batch_data" t-value="o.get_batch_data_grouped()"/>
+                        
+                        <t t-foreach="batch_data" t-as="batch">
+                            <div class="batch-section" style="page-break-inside: avoid; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; padding: 8px;">
+                                
+                                <!-- Header del Batch -->
+                                <div class="batch-header" style="background-color: #2c3e50; color: white; padding: 6px 10px; border-radius: 3px; margin-bottom: 8px;">
+                                    <strong>
+                                        Batch <t t-esc="batch['numbers']"/>
+                                        <t t-if="batch['is_multiple']">
+                                            (<t t-esc="batch['count']"/> batches)
+                                        </t>
+                                        - Cantidad: <t t-esc="'%.2f' % batch['quantity']"/> kg
+                                        <t t-if="batch['is_multiple']">
+                                            c/u
+                                        </t>
+                                    </strong>
+                                </div>
+                                
+                                <!-- Tabla de Componentes con estructura de 2 filas por componente -->
+                                <table class="components-table" style="width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 8px;">
+                                    <thead>
+                                        <tr style="background-color: #f8f9fa;">
+                                            <th rowspan="3" style="width: 12%; border: 1px solid #ddd; padding: 4px; vertical-align: middle; text-align: center;">MATERIA PRIMA</th>
+                                            <th rowspan="3" style="width: 4%; border: 1px solid #ddd; padding: 4px; vertical-align: middle; text-align: center;">%</th>
+                                            <th rowspan="3" style="width: 6%; border: 1px solid #ddd; padding: 4px; vertical-align: middle; text-align: center;">KG/BATCH</th>
+                                            <th rowspan="3" style="width: 8%; border: 1px solid #ddd; padding: 4px; vertical-align: middle; text-align: center;">LOTE</th>
+                                            <th colspan="30" style="border: 1px solid #ddd; padding: 4px; text-align: center;">N° DE MEZCLAS REALIZADAS</th>
+                                            <th rowspan="3" style="width: 10%; border: 1px solid #ddd; padding: 4px; vertical-align: middle; text-align: center;">OBSERVACIONES</th>
+                                        </tr>
+                                        
+                                        <!-- Primera fila de números (1-15) -->
+                                        <tr>
+                                            <t t-foreach="range(1, 16)" t-as="i">
+                                                <th style="border: 1px solid #ddd; padding: 2px; text-align: center; font-weight: normal; background-color: #e9ecef;">
+                                                    <t t-esc="i"/>
+                                                </th>
+                                            </t>
+                                        </tr>
+                                        
+                                        <!-- Segunda fila de números (16-30) -->
+                                        <tr>
+                                            <t t-foreach="range(16, 31)" t-as="i">
+                                                <th style="border: 1px solid #ddd; padding: 2px; text-align: center; font-weight: normal; background-color: #e9ecef;">
+                                                    <t t-esc="i"/>
+                                                </th>
+                                            </t>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        <t t-foreach="batch['components']" t-as="component">
+                                            <!-- Primera fila del componente (mezclas 1-15) -->
+                                            <tr>
+                                                <td rowspan="2" style="border: 1px solid #ddd; padding: 3px; vertical-align: middle;">
+                                                    <t t-esc="component['name']"/>
+                                                </td>
+                                                <td rowspan="2" style="border: 1px solid #ddd; padding: 3px; text-align: center; vertical-align: middle;">
+                                                    <t t-esc="'%.2f' % component['percentage']"/>
+                                                </td>
+                                                <td rowspan="2" style="border: 1px solid #ddd; padding: 3px; text-align: center; vertical-align: middle;">
+                                                    <t t-esc="'%.2f' % component['quantity']"/>
+                                                </td>
+                                                <td rowspan="2" style="border: 1px solid #ddd; padding: 3px; vertical-align: middle;">
+                                                    <t t-esc="component.get('lote', '')"/>
+                                                </td>
+                                                
+                                                <!-- Celdas para mezclas 1-15 -->
+                                                <t t-foreach="range(15)" t-as="mix_num">
+                                                    <td style="border: 1px solid #ddd; padding: 1px; text-align: center; height: 15px; width: 2.5%;">
+                                                        <!-- Espacio para check o datos -->
+                                                    </td>
+                                                </t>
+                                                
+                                                <td rowspan="2" style="border: 1px solid #ddd; padding: 3px; vertical-align: middle;">
+                                                    <!-- Observaciones por componente -->
+                                                </td>
+                                            </tr>
+                                            
+                                            <!-- Segunda fila del componente (mezclas 16-30) -->
+                                            <tr>
+                                                <!-- Celdas para mezclas 16-30 -->
+                                                <t t-foreach="range(15)" t-as="mix_num">
+                                                    <td style="border: 1px solid #ddd; padding: 1px; text-align: center; height: 15px; width: 2.5%;">
+                                                        <!-- Espacio para check o datos -->
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                        
+                                        <!-- Fila de Total -->
+                                        <tr style="background-color: #f8f9fa; font-weight: bold;">
+                                            <td colspan="2" style="border: 1px solid #ddd; padding: 4px; text-align: right;">
+                                                TOTAL KG/BATCH:
+                                            </td>
+                                            <td style="border: 1px solid #ddd; padding: 4px; text-align: center;">
+                                                <t t-esc="'%.2f' % batch['total_weight']"/>
+                                            </td>
+                                            <td colspan="32" style="border: 1px solid #ddd; padding: 4px;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </t>
+
+                        <!-- Sección de Observaciones -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div style="border: 1px solid #ddd; padding: 8px; background-color: #f8f9fa;">
+                                    <strong style="color: #2c3e50;">OBSERVACIÓN Y/O ACCIÓN CORRECTIVA:</strong>
+                                    <div style="margin-top: 4px; min-height: 40px; padding: 5px;">
+                                        <span t-field="o.observaciones"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Firmas -->
+                        <div class="row mt-5">
+                            <div class="col-6 text-center">
+                                <div style="border-top: 1px solid #333; width: 80%; margin: 0 auto; padding-top: 8px;">
+                                    <strong style="font-size: 10px; color: #2c3e50;">V°B° RESPONSABLE</strong>
+                                </div>
+                            </div>
+                            <div class="col-6 text-center">
+                                <div style="border-top: 1px solid #333; width: 80%; margin: 0 auto; padding-top: 8px;">
+                                    <strong style="font-size: 10px; color: #2c3e50;">V°B° JEFE DE PRODUCCIÓN</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pie de página -->
+                        <div class="row mt-3">
+                            <div class="col-12 text-center">
+                                <small style="color: #7f8c8d; font-size: 7px;">
+                                    Documento generado el <span t-field="o.create_date"/> | 
+                                    PLAN HACCP - Control de Calidad
+                                </small>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

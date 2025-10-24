@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Formato de papel horizontal personalizado -->
+    <record id="paperformat_landscape_a4" model="report.paperformat">
+        <field name="name">A4 Landscape</field>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">25</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_spacing">25</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- Definición del reporte PDF -->
+    <record id="action_report_mrp_batch" model="ir.actions.report">
+        <field name="name">Orden de Producción por Batches</field>
+        <field name="model">mrp.production</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mrp_batch_report.report_mrp_batch_document</field>
+        <field name="report_file">mrp_batch_report.report_mrp_batch_document</field>
+        <field name="binding_model_id" ref="mrp.model_mrp_production"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Orden Produccion - %s' % (object.name)</field>
+        <field name="paperformat_id" ref="paperformat_landscape_a4"/>
+    </record>
+</odoo>
