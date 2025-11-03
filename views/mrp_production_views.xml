@@ -23,6 +23,11 @@
                 </page>
             </xpath>
 
+            <!-- Agregar campo is_dosimetria en las líneas de componentes -->
+            <xpath expr="//field[@name='move_raw_ids']//list//field[@name='product_uom']" position="after">
+                <field name="is_dosimetria" string="Dosimetría"/>
+            </xpath>
+
             <!-- Agregar página con información adicional para el reporte -->
             <xpath expr="//notebook" position="inside">
                 <page string="Información del Reporte" name="report_info">

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Definición del reporte PDF de Dosimetría -->
+    <record id="action_report_mrp_batch_dosimetria" model="ir.actions.report">
+        <field name="name">Orden de Producción por Batches (Dosimetría)</field>
+        <field name="model">mrp.production</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mrp_batch_report.report_mrp_batch_dosimetria_document</field>
+        <field name="report_file">mrp_batch_report.report_mrp_batch_dosimetria_document</field>
+        <field name="binding_model_id" ref="mrp.model_mrp_production"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Orden Produccion Dosimetria - %s' % (object.name)</field>
+        <field name="paperformat_id" ref="paperformat_landscape_a4"/>
+    </record>
+</odoo>
