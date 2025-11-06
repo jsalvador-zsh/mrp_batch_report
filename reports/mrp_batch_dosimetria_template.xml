@@ -11,11 +11,14 @@
                             <div class="col-12 text-center">
                                 <h3 style="margin: 0; color: #2c3e50; font-weight: bold;">PLAN HACCP</h3>
                                 <small style="color: #7f8c8d;">CONTROL DE DOSIMETRÍA POR LOTES</small>
+<<<<<<< HEAD
                                 <div style="margin-top: 3px;">
                                     <small style="color: #7f8c8d; font-size: 8px;">
                                         Versión: <span t-esc="env['ir.config_parameter'].sudo().get_param('peruanita_mrp.report_version', '1.0')"/>
                                     </small>
                                 </div>
+=======
+>>>>>>> 97d8622377bbd0cea6efb2c24043995bdeb6f57a
                             </div>
                         </div>
 

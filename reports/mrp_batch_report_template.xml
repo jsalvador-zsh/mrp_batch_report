@@ -15,6 +15,7 @@
                         <!-- Encabezado Principal -->
                         <div style="border-bottom: 2px solid #333; padding-bottom: 3px; margin-bottom: 4px; text-align: center;">
                             <h3 style="margin: 0; padding: 0; color: #2c3e50; font-weight: bold; font-size: 14px;">PLAN HACCP</h3>
+<<<<<<< HEAD
                             <small style="color: #7f8c8d; font-size: 12px;">CONTROL DE PRODUCCIÓN POR LOTES</small>
                             <div style="margin-top: 2px;">
                                 <small style="font-size: 10px;">
@@ -27,6 +28,9 @@
                                     Revisión: <span t-esc="env['ir.config_parameter'].sudo().get_param('peruanita_mrp.report_revision', '1.0')"/>
                                 </small>
                             </div>
+=======
+                            <small style="color: #7f8c8d; font-size: 9px;">CONTROL DE PRODUCCIÓN POR LOTES</small>
+>>>>>>> 97d8622377bbd0cea6efb2c24043995bdeb6f57a
                         </div>
 
                         <!-- Información del Producto - Diseño 3 Columnas -->
@@ -241,7 +245,11 @@
                         <!-- Pie de página -->
                         <div class="row" style="margin-top: 8px;">
                             <div class="col-12 text-center">
+<<<<<<< HEAD
                                 <small style="font-size: 10px;">
+=======
+                                <small style="color: #7f8c8d; font-size: 8px;">
+>>>>>>> 97d8622377bbd0cea6efb2c24043995bdeb6f57a
                                     Documento generado el <span t-field="o.create_date"/> |
                                     PLAN HACCP - Control de Calidad
                                 </small>

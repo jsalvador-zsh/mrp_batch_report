@@ -272,6 +272,7 @@ class MrpProduction(models.Model):
         if self.batch_size <= 0:
             return grouped_batches
 
+<<<<<<< HEAD
         # Usar product_qty (cantidad planificada) en lugar de qty_producing
         # para evitar división por cero cuando aún no se ha comenzado a producir
         total_qty = self.product_qty if self.product_qty > 0 else self.qty_producing
@@ -280,6 +281,9 @@ class MrpProduction(models.Model):
             return grouped_batches
 
         remaining = total_qty
+=======
+        remaining = self.product_qty
+>>>>>>> 97d8622377bbd0cea6efb2c24043995bdeb6f57a
         batch_quantities = []
 
         # Primero calcular todas las cantidades de batch
@@ -322,7 +326,11 @@ class MrpProduction(models.Model):
             for move in self.move_raw_ids:
                 if move.product_id and move.product_uom_qty > 0:
                     # Calcular la cantidad proporcional para este batch
+<<<<<<< HEAD
                     component_qty = (batch_group['quantity'] / total_qty) * move.product_uom_qty
+=======
+                    component_qty = (batch_group['quantity'] / self.product_qty) * move.product_uom_qty
+>>>>>>> 97d8622377bbd0cea6efb2c24043995bdeb6f57a
                     component_percentage = (component_qty / batch_group['quantity']) * 100 if batch_group['quantity'] > 0 else 0
 
                     # Obtener el lote asignado a este movimiento
