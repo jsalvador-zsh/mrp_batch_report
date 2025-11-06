@@ -1,6 +1,6 @@
 {
     'name': 'MRP Batch Production Report',
-    'version': '18.0.1.0.0',
+    'version': '18.0.2.3.0',
     'category': 'Manufacturing',
     'summary': 'Reporte de producción por batches con cálculo de componentes',
     'description': """
@@ -15,6 +15,8 @@
         'views/mrp_production_views.xml',
         'reports/mrp_batch_report.xml',
         'reports/mrp_batch_report_template.xml',
+        'reports/mrp_batch_dosimetria_report.xml',
+        'reports/mrp_batch_dosimetria_template.xml',
     ],
     'installable': True,
     'application': False,

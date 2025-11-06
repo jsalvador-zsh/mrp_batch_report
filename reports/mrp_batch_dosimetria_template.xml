@@ -1,87 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Layout minimalista solo para UTF-8 -->
-    <template id="minimal_report_layout">
-        <t t-call="web.basic_layout">
-            <t t-raw="0"/>
-        </t>
-    </template>
-
-    <template id="report_mrp_batch_document">
-        <t t-call="mrp_batch_report.minimal_report_layout">
+    <template id="report_mrp_batch_dosimetria_document">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <div class="page" style="font-family: Arial, sans-serif; font-size: 10px; padding: 2mm 5mm; margin: 0;">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-family: Arial, sans-serif; font-size: 11px;">
 
                         <!-- Encabezado Principal -->
-                        <div style="border-bottom: 2px solid #333; padding-bottom: 3px; margin-bottom: 4px; text-align: center;">
-                            <h3 style="margin: 0; padding: 0; color: #2c3e50; font-weight: bold; font-size: 14px;">PLAN HACCP</h3>
-                            <small style="color: #7f8c8d; font-size: 12px;">CONTROL DE PRODUCCIÓN POR LOTES</small>
-                            <div style="margin-top: 2px;">
-                                <small style="font-size: 10px;">
-                                    Código: <span t-esc="env['ir.config_parameter'].sudo().get_param('peruanita_mrp.report_code', '1.0')"/>
-                                </small>
-                                <small style="font-size: 10px;">
-                                    Versión: <span t-esc="env['ir.config_parameter'].sudo().get_param('peruanita_mrp.report_version', '1.0')"/>
-                                </small>
-                                <small style="font-size: 10px;">
-                                    Revisión: <span t-esc="env['ir.config_parameter'].sudo().get_param('peruanita_mrp.report_revision', '1.0')"/>
-                                </small>
+                        <div class="row mb-3" style="border-bottom: 2px solid #333; padding-bottom: 8px;">
+                            <div class="col-12 text-center">
+                                <h3 style="margin: 0; color: #2c3e50; font-weight: bold;">PLAN HACCP</h3>
+                                <small style="color: #7f8c8d;">CONTROL DE DOSIMETRÍA POR LOTES</small>
+                                <div style="margin-top: 3px;">
+                                    <small style="color: #7f8c8d; font-size: 8px;">
+                                        Versión: <span t-esc="env['ir.config_parameter'].sudo().get_param('peruanita_mrp.report_version', '1.0')"/>
+                                    </small>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Información del Producto - Diseño 3 Columnas -->
-                        <div style="margin-bottom: 4px;">
-                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 6px; font-size: 10px;">
-                                <tr style="background-color: #f8f9fa;">
-                                    <td style="width: 12%; padding: 5px; border: 1px solid #dee2e6; font-weight: bold; vertical-align: top;">PRODUCTO:</td>
-                                    <td style="width: 38%; padding: 5px; border: 1px solid #dee2e6; vertical-align: top;"><span t-field="o.product_id"/></td>
-                                    <td style="width: 12%; padding: 5px; border: 1px solid #dee2e6; font-weight: bold; vertical-align: top;">KG NETO:</td>
-                                    <td style="width: 13%; padding: 5px; border: 1px solid #dee2e6; vertical-align: top;"><span t-field="o.kg_neto"/></td>
-                                    <td style="width: 12%; padding: 5px; border: 1px solid #dee2e6; font-weight: bold; vertical-align: top;">FECHA INICIO:</td>
-                                    <td style="width: 13%; padding: 5px; border: 1px solid #dee2e6; vertical-align: top;">
-                                        <span t-field="o.date_start" t-options="{'widget': 'datetime', 'format': 'dd/MM/yyyy HH:mm'}"/>
-                                    </td>
-                                </tr>
-                                <tr style="background-color: #f8f9fa;">
-                                    <td style="width: 12%; padding: 5px; border: 1px solid #dee2e6; font-weight: bold; vertical-align: top;">CLIENTE:</td>
-                                    <td colspan="2" style="width: 50%; padding: 5px; border: 1px solid #dee2e6; vertical-align: top;">
-                                        <t t-if="o.sale_partner_id">
-                                            <span t-field="o.sale_partner_id"/>
-                                        </t>
-                                        <t t-elif="o.consolidated_partner_ids">
-                                            <t t-foreach="o.consolidated_partner_ids" t-as="partner">
-                                                <span t-esc="partner.name"/>
-                                                <t t-if="not partner_last">, </t>
-                                            </t>
-                                        </t>
-                                        <span t-if="not o.sale_partner_id and not o.consolidated_partner_ids" style="color: #999;">No asignado</span>
-                                    </td>
-                                    <td style="width: 12%; padding: 5px; border: 1px solid #dee2e6; font-weight: bold; vertical-align: top;">ENVASE PRIMARIO:</td>
-                                    <td colspan="2" style="width: 25%; padding: 5px; border: 1px solid #dee2e6; vertical-align: top;">
-                                        <span t-field="o.envase_primario"/>
-                                    </td>
-                                </tr>
-                                <tr style="background-color: #f8f9fa;">
-                                    <td style="width: 12%; padding: 5px; border: 1px solid #dee2e6; font-weight: bold; vertical-align: top;">LOTE ENVASE:</td>
-                                    <td style="width: 38%; padding: 5px; border: 1px solid #dee2e6; vertical-align: top;">
-                                        <span t-field="o.lote_envase"/>
-                                    </td>
-                                    <td style="width: 12%; padding: 5px; border: 1px solid #dee2e6; font-weight: bold; vertical-align: top;">TIPO ENVASE:</td>
-                                    <td style="width: 13%; padding: 5px; border: 1px solid #dee2e6; vertical-align: top;">
-                                        <span t-field="o.tipo_envase"/>
-                                    </td>
-                                    <td style="width: 12%; padding: 5px; border: 1px solid #dee2e6; font-weight: bold; vertical-align: top;">CÓDIGO EQUIPO:</td>
-                                    <td style="width: 13%; padding: 5px; border: 1px solid #dee2e6; vertical-align: top;">
-                                        <span t-field="o.codigo_equipo"/>
-                                    </td>
-                                </tr>
-                            </table>
+                        <!-- Información del Producto - Diseño Compacto -->
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <table class="table" style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 11px;">
+                                    <tr style="background-color: #f8f9fa;">
+                                        <td style="width: 15%; padding: 8px; border: 1px solid #dee2e6; font-weight: bold;">PRODUCTO:</td>
+                                        <td style="width: 35%; padding: 8px; border: 1px solid #dee2e6;"><span t-field="o.product_id"/></td>
+                                        <td style="width: 15%; padding: 8px; border: 1px solid #dee2e6; font-weight: bold;">KG NETO:</td>
+                                        <td style="width: 35%; padding: 8px; border: 1px solid #dee2e6;"><span t-field="o.kg_neto"/></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
 
                         <!-- Resumen de Producción -->
-                        <div class="row" style="margin-bottom: 8px;">
+                        <div class="row mb-4">
                             <div class="col-12">
-                                <table class="table" style="width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 11px;">
+                                <table class="table" style="width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 11px;">
                                     <tr style="background-color: #e9ecef;">
                                         <td style="width: 16%; padding: 8px; border: 1px solid #dee2e6; font-weight: bold;">CANTIDAD TOTAL:</td>
                                         <td style="width: 17%; padding: 8px; border: 1px solid #dee2e6;"><span t-field="o.product_qty"/> <span t-field="o.product_uom_id"/></td>
@@ -95,13 +50,13 @@
                         </div>
 
                         <!-- Detalle por Batch -->
-                        <t t-set="batch_data" t-value="o.get_batch_data_grouped()"/>
-                        
+                        <t t-set="batch_data" t-value="o.get_batch_data_grouped_dosimetria()"/>
+
                         <t t-foreach="batch_data" t-as="batch">
-                            <div class="batch-section" style="page-break-inside: avoid; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; padding: 6px;">
+                            <div class="batch-section" style="page-break-inside: avoid; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; padding: 8px;">
 
                                 <!-- Header del Batch -->
-                                <div class="batch-header" style="background-color: #2c3e50; color: white; padding: 4px 8px; border-radius: 3px; margin-bottom: 6px;">
+                                <div class="batch-header" style="background-color: #2c3e50; color: white; padding: 6px 10px; border-radius: 3px; margin-bottom: 8px;">
                                     <strong>
                                         Batch <t t-esc="batch['numbers']"/>
                                         <t t-if="batch['is_multiple']">
@@ -113,15 +68,15 @@
                                         </t>
                                     </strong>
                                 </div>
-                                
+
                                 <!-- Tabla de Componentes con estructura de 1 fila por componente -->
                                 <t t-set="num_batches" t-value="o.batch_count"/>
                                 <t t-set="col_width_percentage" t-value="60.0 / max(num_batches, 1)"/>
                                 <!-- Columnas fijas: 12% + 3% + 4% + 7% + 14% = 40%, quedando 60% para las columnas de mezcla -->
-                                <table class="components-table" style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 6px; table-layout: fixed;">
+                                <table class="components-table" style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 12px; table-layout: fixed;">
                                     <thead>
                                         <tr style="background-color: #f8f9fa;">
-                                            <th rowspan="2" style="width: 12%; border: 1px solid #ddd; padding: 3px; vertical-align: middle; text-align: center; font-size: 10px;">MATERIA PRIMA</th>
+                                            <th rowspan="2" style="width: 12%; border: 1px solid #ddd; padding: 3px; vertical-align: middle; text-align: center; font-size: 10px;">COMPONENTE</th>
                                             <th rowspan="2" style="width: 3%; border: 1px solid #ddd; padding: 3px; vertical-align: middle; text-align: center; font-size: 10px;">%</th>
                                             <th rowspan="2" style="width: 4%; border: 1px solid #ddd; padding: 3px; vertical-align: middle; text-align: center; font-size: 10px;">KG/BATCH</th>
                                             <th rowspan="2" style="width: 7%; border: 1px solid #ddd; padding: 3px; vertical-align: middle; text-align: center; font-size: 10px;">LOTE</th>
@@ -141,11 +96,11 @@
 
                                     <tbody>
                                         <!-- Calcular el número total de filas para el rowspan de observaciones -->
-                                        <t t-set="total_rows" t-value="len(batch['components']) + 1"/>
-                                        <!-- +1 por la fila de dosimetría -->
+                                        <t t-set="total_rows" t-value="len(batch['dosimetria_components']) + 1"/>
+                                        <!-- +1 por la fila de mezcla materia -->
 
-                                        <t t-foreach="batch['components']" t-as="component">
-                                            <!-- Fila única del componente con N celdas según batch_count -->
+                                        <!-- Componentes de DOSIMETRÍA desglosados -->
+                                        <t t-foreach="batch['dosimetria_components']" t-as="component">
                                             <tr>
                                                 <td style="border: 1px solid #ddd; padding: 2px 3px; vertical-align: middle; font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                     <t t-esc="component['name']"/>
@@ -174,19 +129,19 @@
                                             </tr>
                                         </t>
 
-                                        <!-- Fila de Dosimetría agrupada (siempre se muestra) -->
-                                        <tr style="background-color: #e3f2fd; font-weight: bold;">
+                                        <!-- Fila de MEZCLA MATERIA agrupada (siempre se muestra) -->
+                                        <tr style="background-color: #fff3cd; font-weight: bold;">
                                             <td style="border: 1px solid #ddd; padding: 2px 3px; vertical-align: middle; font-size: 10px;">
-                                                DOSIMETRÍA
+                                                MEZCLA MATERIA
                                             </td>
                                             <td style="border: 1px solid #ddd; padding: 2px; text-align: center; vertical-align: middle; font-size: 10px;">
-                                                <t t-esc="'%.2f' % batch.get('total_dosimetria_percentage', 0)"/>
+                                                <t t-esc="'%.2f' % batch.get('total_mezcla_materia_percentage', 0)"/>
                                             </td>
                                             <td style="border: 1px solid #ddd; padding: 2px; text-align: center; vertical-align: middle; font-size: 10px;">
-                                                <t t-esc="'%.2f' % batch.get('total_dosimetria_kg', 0)"/>
+                                                <t t-esc="'%.2f' % batch.get('total_mezcla_materia_kg', 0)"/>
                                             </td>
                                             <td style="border: 1px solid #ddd; padding: 2px 3px; vertical-align: middle; font-size: 10px;">
-                                                <!-- Lote vacío para dosimetría agrupada -->
+                                                <!-- Lote vacío para mezcla materia agrupada -->
                                             </td>
 
                                             <!-- Celdas para mezclas (dinámicas según batch_count) -->
@@ -214,41 +169,31 @@
                         </t>
 
                         <!-- Firmas -->
-                        <div style="margin-top: 25px; display: table; width: 100%;">
-                            <div style="display: table-cell; width: 33.33%; text-align: center; vertical-align: top; padding: 0 5px;">
-                                <div style="padding-top: 40px;">
-                                    <div style="border-top: 1px solid #333; width: 90%; margin: 0 auto; padding-top: 6px;">
-                                        <strong style="font-size: 10px; color: #2c3e50;">V°B° RESPONSABLE</strong>
-                                    </div>
+                        <div class="row mt-5">
+                            <div class="col-6 text-center">
+                                <div style="border-top: 1px solid #333; width: 80%; margin: 0 auto; padding-top: 8px;">
+                                    <strong style="font-size: 10px; color: #2c3e50;">V°B° RESPONSABLE</strong>
                                 </div>
                             </div>
-                            <div style="display: table-cell; width: 33.33%; text-align: center; vertical-align: top; padding: 0 5px;">
-                                <div style="padding-top: 40px;">
-                                    <div style="border-top: 1px solid #333; width: 90%; margin: 0 auto; padding-top: 6px;">
-                                        <strong style="font-size: 10px; color: #2c3e50;">V°B° SUPERV. DE PRODUCCIÓN</strong>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="display: table-cell; width: 33.33%; text-align: center; vertical-align: top; padding: 0 5px;">
-                                <div style="padding-top: 40px;">
-                                    <div style="border-top: 1px solid #333; width: 90%; margin: 0 auto; padding-top: 6px;">
-                                        <strong style="font-size: 10px; color: #2c3e50;">V°B° JEFE(A) DE CALIDAD Y PLANTA</strong>
-                                    </div>
+                            <div class="col-6 text-center">
+                                <div style="border-top: 1px solid #333; width: 80%; margin: 0 auto; padding-top: 8px;">
+                                    <strong style="font-size: 10px; color: #2c3e50;">V°B° JEFE DE PRODUCCIÓN</strong>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Pie de página -->
-                        <div class="row" style="margin-top: 8px;">
+                        <div class="row mt-3">
                             <div class="col-12 text-center">
-                                <small style="font-size: 10px;">
+                                <small style="color: #7f8c8d; font-size: 8px;">
                                     Documento generado el <span t-field="o.create_date"/> |
-                                    PLAN HACCP - Control de Calidad
+                                    PLAN HACCP - Control de Dosimetría
                                 </small>
                             </div>
                         </div>
 
-                </div>
+                    </div>
+                </t>
             </t>
         </t>
     </template>
